@@ -1,9 +1,8 @@
 # Open WebUI for YunoHost
 
-[![Integration level](https://apps.yunohost.org/badge/integration/openwebui)](https://ci-apps.yunohost.org/ci/apps/openwebui/)
 [![Install Open WebUI with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=openwebui)
 
-> *This package allows you to install Open WebUI quickly and simply on a YunoHost server.*
+> *This package allows you to install [Open WebUI](https://openwebui.com) quickly and simply on a YunoHost server.*
 > *If you don't have YunoHost, please consult [the guide](https://yunohost.org/install) to learn how to install it.*
 
 ## Overview
@@ -12,22 +11,77 @@ Open WebUI is a user-friendly, self-hosted AI chat interface. It supports multip
 
 **Shipped version:** 0.6.5~ynh1
 
+### Features
+
+- ChatGPT-like interface for interacting with AI models
+- Support for **Ollama** (local models) and **OpenAI-compatible APIs**
+- RAG (Retrieval-Augmented Generation) with document uploads
+- Multi-user support with role-based access control
+- Conversation history and model management
+
+### YunoHost Integration
+
+- **LDAP** — YunoHost users can log in directly
+- **SSO** — Seamless single sign-on via trusted headers
+- **Multi-instance** — Run multiple Open WebUI instances on the same server
+- **Ollama auto-detection** — Automatically connects to `ollama_ynh` if installed
+
+## Install
+
+```bash
+sudo yunohost app install https://github.com/remoun/yunohost-openwebui
+```
+
+### Ollama for local AI models
+
+Open WebUI works best with Ollama for running AI models locally. Install it on your YunoHost server:
+
+```bash
+sudo yunohost app install ollama
+```
+
+This is **optional** — Open WebUI can also connect to remote Ollama instances or OpenAI-compatible APIs.
+
+## Configuration
+
+During install, you'll be asked:
+
+| Setting | Description |
+|---------|-------------|
+| Domain | Which domain to serve on |
+| Path | URL path (default: `/`) |
+| Admin | YunoHost user who becomes the Open WebUI admin |
+| Access | Public (anyone sees login page) or SSO-restricted |
+| Ollama connection | `local` (localhost:11434) or `remote` (custom URL) |
+| OpenAI API key | Optional, for OpenAI-compatible backends |
+
+All settings are stored as YunoHost app settings and can be changed after install:
+
+```bash
+sudo yunohost app setting openwebui <key> -v <value>
+```
+
 ## Documentation and resources
 
 - Official app website: <https://openwebui.com>
 - Official admin documentation: <https://docs.openwebui.com>
 - Upstream app code repository: <https://github.com/open-webui/open-webui>
-- YunoHost documentation for this app: <https://yunohost.org/app_openwebui>
-- Report a bug: <https://github.com/YunoHost-Apps/openwebui_ynh/issues>
+- YunoHost packaging docs: <https://yunohost.org/packaging_apps>
+- Report a bug: <https://github.com/remoun/yunohost-openwebui/issues>
+
+## Design
+
+The package architecture and key decisions are documented in [`docs/superpowers/specs/DESIGN.md`](docs/superpowers/specs/DESIGN.md).
 
 ## Developer info
 
-Please send your pull request to the [`testing` branch](https://github.com/YunoHost-Apps/openwebui_ynh/tree/testing).
-
-To try the `testing` branch:
-
 ```bash
-sudo yunohost app install https://github.com/YunoHost-Apps/openwebui_ynh/tree/testing --debug
+# Install from this repo (testing)
+sudo yunohost app install https://github.com/remoun/yunohost-openwebui --debug
+
+# Validate locally
+python3 -c "import tomllib; tomllib.load(open('manifest.toml', 'rb'))"
+bash -n scripts/_common.sh scripts/install scripts/remove scripts/upgrade scripts/backup scripts/restore scripts/change_url
 ```
 
 **More info regarding app packaging:** <https://yunohost.org/packaging_apps>
