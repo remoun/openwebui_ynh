@@ -8,19 +8,32 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# RESOLVE OLLAMA URL
+# CONFIGURE LLM BACKEND
 #=================================================
-ynh_script_progression "Configuring Ollama connection..."
+ynh_script_progression "Configuring LLM backend..."
 
-ollama_url=$(resolve_ollama_url "$ollama_connection" "$ollama_url")
-ynh_app_setting_set --key=ollama_url --value="$ollama_url"
+# Set defaults for fields that may not have been shown (due to visibility rules)
+if [ "$llm_backend" = "ollama" ] || [ "$llm_backend" = "both" ]; then
+    ollama_url=$(resolve_ollama_url "$ollama_connection" "$ollama_url")
+    ynh_app_setting_set --key=ollama_url --value="$ollama_url"
 
-# Log Ollama detection status
-ollama_domain=$(detect_ollama_domain)
-if [ -n "$ollama_domain" ]; then
-    ynh_print_info "Detected ollama_ynh at ${ollama_domain}"
+    # Log Ollama detection status
+    ollama_domain=$(detect_ollama_domain)
+    if [ -n "$ollama_domain" ]; then
+        ynh_print_info "Detected ollama_ynh at ${ollama_domain}"
+    fi
 else
-    ynh_print_info "ollama_ynh not detected. Install ollama_ynh for local AI models, or configure a remote Ollama URL."
+    ollama_url=""
+    ollama_connection="none"
+    ynh_app_setting_set --key=ollama_url --value=""
+    ynh_app_setting_set --key=ollama_connection --value="none"
+fi
+
+if [ "$llm_backend" != "openai" ] && [ "$llm_backend" != "both" ]; then
+    openai_api_key=""
+    openai_api_base_url=""
+    ynh_app_setting_set --key=openai_api_key --value=""
+    ynh_app_setting_set --key=openai_api_base_url --value=""
 fi
 
 #=================================================

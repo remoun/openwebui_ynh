@@ -46,6 +46,15 @@ ram.runtime = "256M"
     help.en = "If set to 'visitors', anyone can access the login page. If set to a specific group, only those YunoHost users can access the app via SSO."
     help.fr = "Si défini sur 'visitors', tout le monde peut accéder à la page de connexion. Si défini sur un groupe spécifique, seuls ces utilisateurs YunoHost peuvent accéder à l'application via SSO."
 
+    [install.llm_backend]
+    ask.en = "LLM backend to use"
+    ask.fr = "Backend LLM à utiliser"
+    help.en = "Choose which AI provider(s) to configure now. You can always add more later in Open WebUI's settings."
+    help.fr = "Choisissez quel(s) fournisseur(s) IA configurer maintenant. Vous pouvez toujours en ajouter d'autres plus tard dans les paramètres d'Open WebUI."
+    type = "select"
+    choices = ["ollama", "openai", "both", "none"]
+    default = "none"
+
     [install.ollama_connection]
     ask.en = "Ollama connection mode"
     ask.fr = "Mode de connexion Ollama"
@@ -54,31 +63,35 @@ ram.runtime = "256M"
     type = "select"
     choices = ["local", "remote"]
     default = "local"
+    visible = "llm_backend == 'ollama' || llm_backend == 'both'"
 
     [install.ollama_url]
     ask.en = "Ollama API URL"
     ask.fr = "URL de l'API Ollama"
-    help.en = "Full URL to the Ollama API. Only used when connection mode is 'remote'."
-    help.fr = "URL complète de l'API Ollama. Utilisé uniquement quand le mode de connexion est 'remote'."
+    help.en = "Full URL to the Ollama API."
+    help.fr = "URL complète de l'API Ollama."
     type = "string"
     default = "http://localhost:11434"
+    visible = "(llm_backend == 'ollama' || llm_backend == 'both') && ollama_connection == 'remote'"
 
     [install.openai_api_key]
-    ask.en = "OpenAI API key (optional)"
-    ask.fr = "Clé API OpenAI (optionnel)"
-    help.en = "Leave blank if you only plan to use Ollama."
-    help.fr = "Laissez vide si vous prévoyez d'utiliser uniquement Ollama."
+    ask.en = "OpenAI-compatible API key"
+    ask.fr = "Clé API compatible OpenAI"
+    help.en = "API key for OpenAI, Anthropic (via proxy), or any OpenAI-compatible provider."
+    help.fr = "Clé API pour OpenAI, Anthropic (via proxy), ou tout fournisseur compatible OpenAI."
     type = "string"
     default = ""
     optional = true
+    visible = "llm_backend == 'openai' || llm_backend == 'both'"
 
     [install.openai_api_base_url]
     ask.en = "OpenAI-compatible API base URL"
     ask.fr = "URL de base de l'API compatible OpenAI"
-    help.en = "For OpenAI, use the default. For other providers, enter their API URL."
-    help.fr = "Pour OpenAI, utilisez la valeur par défaut. Pour d'autres fournisseurs, entrez leur URL API."
+    help.en = "For OpenAI, use the default. For other providers (LiteLLM, etc.), enter their API URL."
+    help.fr = "Pour OpenAI, utilisez la valeur par défaut. Pour d'autres fournisseurs (LiteLLM, etc.), entrez leur URL API."
     type = "string"
     default = "https://api.openai.com/v1"
+    visible = "llm_backend == 'openai' || llm_backend == 'both'"
 
 [resources]
     [resources.system_user]

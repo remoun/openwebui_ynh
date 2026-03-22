@@ -5,16 +5,17 @@ test_format = 1.0
 [default]
 
     args.init_main_permission = "visitors"
+    args.llm_backend = "none"
     args.ollama_connection = "local"
     args.ollama_url = "http://localhost:11434"
     args.openai_api_key = ""
     args.openai_api_base_url = "https://api.openai.com/v1"
 
 [install.root]
-    args_format = "domain=__DOMAIN__&path=/&admin=__USERNAME__&init_main_permission=visitors&ollama_connection=local&ollama_url=http://localhost:11434&openai_api_key=&openai_api_base_url=https://api.openai.com/v1"
+    args_format = "domain=__DOMAIN__&path=/&admin=__USERNAME__&init_main_permission=visitors&llm_backend=none"
 
 [install.subpath]
-    args_format = "domain=__DOMAIN__&path=__PATH__&admin=__USERNAME__&init_main_permission=visitors&ollama_connection=local&ollama_url=http://localhost:11434&openai_api_key=&openai_api_base_url=https://api.openai.com/v1"
+    args_format = "domain=__DOMAIN__&path=__PATH__&admin=__USERNAME__&init_main_permission=visitors&llm_backend=none"
 
 [upgrade]
 

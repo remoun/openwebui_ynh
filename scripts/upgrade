@@ -19,22 +19,24 @@ ynh_systemctl --service="$app" --action="stop"
 #=================================================
 ynh_script_progression "Ensuring downward compatibility..."
 
-# Ensure ollama_connection setting exists (for upgrades from versions before this was added)
+# Ensure settings exist (for upgrades from versions before these were added)
+ynh_app_setting_set_default --key=llm_backend --value="ollama"
 ynh_app_setting_set_default --key=ollama_connection --value="local"
 ynh_app_setting_set_default --key=enable_login_form --value="true"
 
 #=================================================
-# RESOLVE OLLAMA URL
+# CONFIGURE LLM BACKEND
 #=================================================
-ynh_script_progression "Configuring Ollama connection..."
+ynh_script_progression "Configuring LLM backend..."
 
-ollama_url=$(resolve_ollama_url "$ollama_connection" "$ollama_url")
-ynh_app_setting_set --key=ollama_url --value="$ollama_url"
+if [ "$llm_backend" = "ollama" ] || [ "$llm_backend" = "both" ]; then
+    ollama_url=$(resolve_ollama_url "$ollama_connection" "$ollama_url")
+    ynh_app_setting_set --key=ollama_url --value="$ollama_url"
 
-# Log Ollama detection status
-ollama_domain=$(detect_ollama_domain)
-if [ -n "$ollama_domain" ]; then
-    ynh_print_info "Detected ollama_ynh at ${ollama_domain}"
+    ollama_domain=$(detect_ollama_domain)
+    if [ -n "$ollama_domain" ]; then
+        ynh_print_info "Detected ollama_ynh at ${ollama_domain}"
+    fi
 fi
 
 #=================================================
