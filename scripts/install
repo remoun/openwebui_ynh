@@ -95,7 +95,7 @@ yunohost service add "$app" --description="Open WebUI AI chat interface"
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action="start" --wait_until="Uvicorn running" --timeout=240
+ynh_systemctl --service="$app" --action="start" --log_path=systemd --wait_until="Uvicorn running" --timeout=240
 
 #=================================================
 # END OF SCRIPT
