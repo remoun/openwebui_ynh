@@ -1,0 +1,32 @@
+[Unit]
+Description=Open WebUI (__APP__)
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=__APP__
+Group=__APP__
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__INSTALL_DIR__/.env
+ExecStart=__INSTALL_DIR__/venv/bin/open-webui serve --host 127.0.0.1 --port __PORT__
+Restart=on-failure
+RestartSec=5
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=full
+ProtectHome=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectControlGroups=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target
