@@ -39,7 +39,11 @@ YunoHost v2 package (`openwebui_ynh`) for self-hosting [Open WebUI](https://open
 - **Settings persistence** — custom values (ollama_url, admin_email, enable_login_form) are stored via `ynh_app_setting_set` so they survive upgrades
 - **Version pinning** — `OPENWEBUI_VERSION` is set in `scripts/_common.sh`, used everywhere
 
-## Validation
+## Lint & Test Requirements
+
+Before committing or opening a PR, run:
+
+### Lint (required)
 
 ```bash
 # TOML syntax
@@ -49,12 +53,21 @@ python3 -c "import tomllib; tomllib.load(open('tests.toml', 'rb'))"
 # Shell syntax
 bash -n scripts/_common.sh scripts/install scripts/remove scripts/upgrade scripts/backup scripts/restore scripts/change_url
 
-# Linter (Linux only — crashes on macOS due to grep -P / du -sb)
-# Clone https://github.com/YunoHost/package_linter and run package_linter.py
-
-# Full integration test (requires Debian with LXC)
-# Clone https://github.com/YunoHost/package_check and run package_check.sh
+# ShellCheck (install: apt install shellcheck / brew install shellcheck)
+bash tests/run_shellcheck.sh
 ```
+
+### Tests (required)
+
+```bash
+# Bats unit tests (install: apt install bats / brew install bats-core)
+bats tests/
+```
+
+### Optional (YunoHost catalog submission)
+
+- **package_linter** — Linux only (crashes on macOS due to `grep -P` / `du -sb`). Clone https://github.com/YunoHost/package_linter and run `package_linter.py`.
+- **package_check** — Full integration test (requires Debian with LXC). Clone https://github.com/YunoHost/package_check and run `package_check.sh`.
 
 ## Status
 
