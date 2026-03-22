@@ -67,6 +67,7 @@ python3 -m venv "$install_dir/venv"
 "$install_dir/venv/bin/pip" install "open-webui==$OPENWEBUI_VERSION"
 
 chown -R "$app:$app" "$install_dir"
+chown -R "$app:$app" "$data_dir"
 
 #=================================================
 # ADD CONFIGURATION FILES
