@@ -4,7 +4,7 @@
 # COMMON VARIABLES
 #=================================================
 
-OPENWEBUI_VERSION="0.6.5"
+OPENWEBUI_VERSION="0.8.10"
 
 #=================================================
 # COMMON HELPERS
