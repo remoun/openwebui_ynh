@@ -53,8 +53,13 @@ ynh_script_progression "Setting up Python virtual environment..."
 
 python3 -m venv "$install_dir/venv"
 "$install_dir/venv/bin/pip" install --upgrade pip
-# Pre-install ddgs to work around yanked ddgs==9.11.2 on PyPI (Open WebUI 0.8.10 dependency)
+# Work around yanked ddgs==9.11.2 on PyPI (pinned by Open WebUI 0.8.10):
+# install without deps, patch metadata to accept ddgs>=9.11.3, then resolve deps.
+"$install_dir/venv/bin/pip" install --no-deps "open-webui==$OPENWEBUI_VERSION"
 "$install_dir/venv/bin/pip" install "ddgs>=9.11.3"
+for _f in "$install_dir"/venv/lib/python3*/site-packages/open_webui-*.dist-info/METADATA; do
+    [ -f "$_f" ] && sed -i "s/Requires-Dist: ddgs==9.11.2/Requires-Dist: ddgs>=9.11.3/" "$_f"
+done
 "$install_dir/venv/bin/pip" install "open-webui==$OPENWEBUI_VERSION"
 
 chown -R "$app:$app" "$install_dir"
