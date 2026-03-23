@@ -107,7 +107,8 @@ chown -R "$app:$app" "/var/log/$app"
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action="start" --log_path="/var/log/$app/$app.log" --wait_until="Uvicorn running" --timeout=600
+ynh_systemctl --service="$app" --action="start"
+wait_for_port "$port" 600
 
 #=================================================
 # END OF SCRIPT

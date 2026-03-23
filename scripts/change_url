@@ -27,7 +27,8 @@ ynh_config_change_url_nginx
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action="start" --log_path="/var/log/$app/$app.log" --wait_until="Uvicorn running" --timeout=240
+ynh_systemctl --service="$app" --action="start"
+wait_for_port "$port" 240
 
 #=================================================
 # END OF SCRIPT

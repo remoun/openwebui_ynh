@@ -16,6 +16,21 @@ detect_ollama_domain() {
 }
 
 # Resolve the Ollama URL based on connection mode and detection
+# Wait for the app to respond on its port
+wait_for_port() {
+    local port="$1"
+    local timeout="${2:-120}"
+    local i=0
+    while [ "$i" -lt "$timeout" ]; do
+        if curl -s -o /dev/null -w '' "http://127.0.0.1:$port/" 2>/dev/null; then
+            return 0
+        fi
+        sleep 5
+        i=$((i + 5))
+    done
+    return 1
+}
+
 resolve_ollama_url() {
     local connection_mode="$1"
     local user_url="$2"
