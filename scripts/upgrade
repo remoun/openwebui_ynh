@@ -34,6 +34,8 @@ ynh_app_setting_set_default --key=webui_auth_trusted_name_header --value="YNH_US
 #=================================================
 ynh_script_progression "Upgrading Open WebUI..."
 
+# Pre-install ddgs to work around yanked ddgs==9.11.2 on PyPI (Open WebUI 0.8.10 dependency)
+"$install_dir/venv/bin/pip" install --upgrade "ddgs>=9.11.3"
 "$install_dir/venv/bin/pip" install --upgrade "open-webui==$OPENWEBUI_VERSION"
 
 #=================================================
