@@ -49,14 +49,9 @@ ynh_app_setting_set --key=rag_embedding_engine --value="$rag_embedding_engine"
 # DETERMINE LOGIN FORM SETTING
 #=================================================
 
-# init_main_permission is a special YunoHost question consumed by the permission
-# resource system — it may not be exposed as a regular shell variable.
-# Use safe expansion with a default of "all_users" (private).
-if [ "${init_main_permission:-all_users}" = "visitors" ]; then
-    enable_login_form="true"
-else
-    enable_login_form="false"
-fi
+# Always enable login form — Open WebUI requires it for trusted header
+# auth (SSO) to auto-create user accounts on first login.
+enable_login_form="true"
 ynh_app_setting_set --key=enable_login_form --value="$enable_login_form"
 
 #=================================================
