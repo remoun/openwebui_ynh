@@ -24,6 +24,7 @@ ynh_script_progression "Ensuring downward compatibility..."
 ynh_app_setting_set_default --key=llm_backend --value="ollama"
 ynh_app_setting_set_default --key=ollama_connection --value="local"
 ynh_app_setting_set_default --key=enable_login_form --value="true"
+ynh_app_setting_set_default --key=rag_embedding_engine --value=""
 
 #=================================================
 # CONFIGURE LLM BACKEND

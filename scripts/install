@@ -37,6 +37,14 @@ if [ "$llm_backend" != "openai" ] && [ "$llm_backend" != "both" ]; then
     ynh_app_setting_set --key=openai_api_base_url --value=""
 fi
 
+# Derive embedding engine from LLM backend to avoid downloading a local model
+case "$llm_backend" in
+    openai|both) rag_embedding_engine="openai" ;;
+    ollama)      rag_embedding_engine="ollama" ;;
+    *)           rag_embedding_engine="" ;;
+esac
+ynh_app_setting_set --key=rag_embedding_engine --value="$rag_embedding_engine"
+
 #=================================================
 # DETERMINE LOGIN FORM SETTING
 #=================================================
