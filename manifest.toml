@@ -7,7 +7,7 @@ name = "Open WebUI"
 description.en = "User-friendly AI chat interface supporting Ollama and OpenAI-compatible APIs"
 description.fr = "Interface de chat IA conviviale supportant Ollama et les API compatibles OpenAI"
 
-version = "0.8.10~ynh1"
+version = "0.8.8~ynh1"
 
 maintainers = []
 

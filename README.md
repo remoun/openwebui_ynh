@@ -9,7 +9,7 @@
 
 Open WebUI is a user-friendly, self-hosted AI chat interface. It supports multiple LLM backends including Ollama for local models and OpenAI-compatible APIs.
 
-**Shipped version:** 0.8.10~ynh1
+**Shipped version:** 0.8.8~ynh1
 
 ### Features
 
